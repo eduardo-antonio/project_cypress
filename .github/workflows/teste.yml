@@ -3,7 +3,7 @@ name: Cypress E2E Tests
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '57 21 * * *'
       timezone: 'America/Sao_Paulo'
 
 jobs:
