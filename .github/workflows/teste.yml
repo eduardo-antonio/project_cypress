@@ -1,0 +1,30 @@
+name: Cypress E2E Tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 21 * * *'
+      timezone: 'America/Sao_Paulo'
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Executar testes Cypress
+        id: cypress-tests
+        run: npm test
+        continue-on-error: true
+
+      - name: Desabilitar screenshots e vídeos em caso de falha
+        if: steps.cypress-tests.outcome == 'failure'
+        run: echo "Testes falharam - screenshots e vídeos desabilitados nesta execução, sem gerar evidência."
+
+      - name: Marcar job como falho, se necessário
+        if: steps.cypress-tests.outcome == 'failure'
+        run: exit 1
