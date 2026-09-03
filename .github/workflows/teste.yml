@@ -3,7 +3,7 @@ name: Cypress E2E Tests
 on:
   workflow_dispatch:
   schedule:
-    - cron: '57 21 * * *'
+    - cron: '6 21 * * *'
       timezone: 'America/Sao_Paulo'
 
 jobs:
@@ -13,8 +13,13 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Instalar dependências
-        run: npm install
+        run: npm ci
 
       - name: Executar testes Cypress
         id: cypress-tests
